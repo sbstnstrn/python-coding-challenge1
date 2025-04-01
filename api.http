@@ -1,0 +1,30 @@
+
+POST http://127.0.0.1:8000/api/token/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "user",
+    "password": "test"
+}
+
+
+###
+
+POST http://127.0.0.1:8000/api/token/refresh/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0MjY3NTQ1NiwiaWF0IjoxNzQyNTg5MDU2LCJqdGkiOiJhMjk3ZjM5YzNlMzY0YWE2ODQxNzI0MjhkZDNlNmE0NyIsInVzZXJfaWQiOjF9.O9sLkU5h-3Jwv_N7U7au7cvDgLpS3IskhRjFQcjX61I"
+}
+
+###
+
+GET http://127.0.0.1:8000/api/users/ HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQzNTE0ODMwLCJpYXQiOjE3NDM1MTEyMzAsImp0aSI6ImFkZTJlOGY1YmQwNTQyYTQ5MWVmNTM3NDgwMGFkMGNmIiwidXNlcl9pZCI6Mn0.V8Q7pM4h4dDn0h-saJnL89yE93nvGE5NstTSdO7zZ-s
+
+###
+
+GET http://127.0.0.1:8000/api/chats/ HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQzNTQyNzE5LCJpYXQiOjE3NDM1MzkxMTksImp0aSI6ImUzNGMzZTRhYmNhNjRkYjY4ZmRkMGFiYTVlYmZmOGE5IiwidXNlcl9pZCI6M30.5ygBgBpReA0F0Peawe3Q2k7-uaWTYdRB84Fzf2x5VqM
+
+###
