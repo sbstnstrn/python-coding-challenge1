@@ -14,7 +14,7 @@ class MessageChatIntegrationTest(APITestCase):
 
     def test_chat_archive(self):
         self.client.login(username='admin', password='test')
-        url = reverse('chat-detail', args=[self.chat.pk])
+        url = reverse('chat-action', args=[self.chat.pk])
         data = {
             "archived": True,
         }
@@ -42,7 +42,7 @@ class MessageChatIntegrationTest(APITestCase):
 
     def test_chat_delete_with_messages(self):
         self.client.login(username='admin', password='test')
-        url = reverse('chat-detail', args=[self.chat.pk])
+        url = reverse('chat-action', args=[self.chat.pk])
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Chat.objects.count(), 0)

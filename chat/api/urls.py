@@ -9,14 +9,13 @@ urlpatterns = [
     path('users/', UserListAPIView.as_view(), name='user-list'),
     path('users/me/', UserRetrieveAPIView.as_view(), name='user-me'),
     path('users/create/', UserCreateAPIView.as_view(), name='user-create'),
-    path('users/detail/<int:pk>/', UserRetrieveUpdateDestroyAPIView.as_view(), name='user-detail'),
+    path('users/<int:pk>/', UserRetrieveUpdateDestroyAPIView.as_view(), name='user-action'),
     
     path('chats/', ChatListAPIView.as_view(), name='chat-list'),
     path('chats/create/', ChatCreateAPIView.as_view(), name='chat-create'),
-    path('chats/<int:pk>/', ChatRetrieveAPIView.as_view(), name='chat-retrieve'),
-    path('chats/detail/<int:pk>/', ChatRetrieveUpdateDestroyAPIView.as_view(), name='chat-detail'),
+    path('chats/<int:pk>/', ChatRetrieveUpdateDestroyAPIView.as_view(), name='chat-action'),
     
     path('messages/', MessageListAPIView.as_view(), name='message-list'),
     path('messages/create/', MessageCreateAPIView.as_view(), name='message-create'),
-    path('messages/detail/<int:pk>/', MessageRetrieveUpdateDestroyAPIView.as_view(), name='message-detail'),
+    path('messages/<int:pk>/', MessageRetrieveUpdateDestroyAPIView.as_view(), name='message-action'),
 ]

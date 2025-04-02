@@ -58,7 +58,7 @@ class MessageRetrieveUpdateDestroyAPIViewTests(APITestCase):
         self.admin = User.objects.create_superuser(username='admin', password='test')
         self.chat = Chat.objects.create(user=self.user)
         self.message = Message.objects.create(user=self.user, chat=self.chat, content="Hello!")
-        self.url = reverse('message-detail', args=[self.message.pk])
+        self.url = reverse('message-action', args=[self.message.pk])
 
     def test_not_authenticated(self):
         response = self.client.get(self.url)

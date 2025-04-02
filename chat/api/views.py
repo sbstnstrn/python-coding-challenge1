@@ -19,17 +19,10 @@ class IsOwner(BasePermission):
     def has_object_permission(self, request, view, obj):
         return obj.user == request.user
 
-
 class UserListAPIView(generics.ListAPIView):
     queryset = User.objects.all().order_by('pk')
     serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        qs = super().get_queryset()
-        if not self.request.user.is_staff:
-            qs = qs.filter(pk=self.request.user.pk)
-        return qs
+    permission_classes = [IsAdminUser]
     
 class UserRetrieveAPIView(generics.RetrieveAPIView):
     queryset = User.objects.all().order_by('pk')
@@ -72,10 +65,10 @@ class ChatRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ChatSerializer
     permission_classes = [IsAdminUser]
 
-class ChatRetrieveAPIView(generics.RetrieveAPIView):
-    queryset = Chat.objects.all().order_by('pk')
-    serializer_class = ChatSerializer
-    permission_classes = [IsAuthenticated, IsOwnerOrAdmin]    
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [IsAuthenticated(), IsOwnerOrAdmin()]
+        return [IsAdminUser()]
 
 class MessageListAPIView(generics.ListAPIView):
     queryset = Message.objects.all().order_by('pk')
@@ -108,7 +101,5 @@ class MessageRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView)
     def get_permissions(self):
         if self.request.method == 'GET':
             return [IsAuthenticated()]
-        elif self.request.method in ['PUT', 'PATCH', 'DELETE']:
-            return [IsAuthenticated(), IsOwner()]
-        return super().get_permissions()
+        return [IsAuthenticated(), IsOwner()]
 

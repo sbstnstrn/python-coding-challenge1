@@ -16,9 +16,7 @@ class UserListAPIViewTests(APITestCase):
     def test_authenticated(self):
         self.client.login(username='testuser', password='test')
         response = self.client.get(self.url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['count'], 1)
-        self.assertEqual(response.data['results'][0]['username'], 'testuser')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         
     def test_authenticated_as_admin(self):
         self.client.login(username='admin', password='test')
@@ -116,7 +114,7 @@ class UserRetrieveUpdateDestroyAPIViewTests(APITestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='testuser', password='test')
         self.admin = User.objects.create_superuser(username='admin', password='test')
-        self.url = reverse('user-detail', args=[self.user.pk])
+        self.url = reverse('user-action', args=[self.user.pk])
 
     def test_not_authenticated(self):
         response = self.client.get(self.url)
@@ -152,7 +150,7 @@ class UserRetrieveUpdateDestroyAPIViewTests(APITestCase):
 
     def test_authenticated_as_admin_delete_non_existent_user(self):
         self.client.login(username='admin', password='test')
-        response = self.client.delete(reverse('user-detail', args=[999]))
+        response = self.client.delete(reverse('user-action', args=[999]))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_authenticated_as_admin_update_non_existent_user(self):
@@ -160,7 +158,7 @@ class UserRetrieveUpdateDestroyAPIViewTests(APITestCase):
         data = {
             "is_staff": True,
         }
-        response = self.client.patch(reverse('user-detail', args=[999]), data)
+        response = self.client.patch(reverse('user-action', args=[999]), data)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         user = User.objects.get(pk=self.user.pk)
         self.assertFalse(user.is_staff)
