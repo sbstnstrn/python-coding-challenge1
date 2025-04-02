@@ -29,6 +29,14 @@ class UserListAPIView(generics.ListAPIView):
         if not self.request.user.is_staff:
             qs = qs.filter(pk=self.request.user.pk)
         return qs
+    
+class UserRetrieveAPIView(generics.RetrieveAPIView):
+    queryset = User.objects.all().order_by('pk')
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return super().get_queryset().filter(pk=self.request.user.pk)
 
 class UserCreateAPIView(generics.CreateAPIView):
     queryset = User.objects.all().order_by('pk')
