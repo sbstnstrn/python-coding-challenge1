@@ -4,6 +4,7 @@ from api.serializers import UserSerializer, ChatSerializer, ChatCreateSerializer
 from rest_framework import filters, generics, viewsets
 from rest_framework.permissions import IsAdminUser, IsAuthenticated, BasePermission
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 
 class IsOwnerOrAdmin(BasePermission):
@@ -35,8 +36,8 @@ class UserRetrieveAPIView(generics.RetrieveAPIView):
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
-        return super().get_queryset().filter(pk=self.request.user.pk)
+    def get(self, request, *args, **kwargs):
+        return Response(self.get_serializer(request.user).data)
 
 class UserCreateAPIView(generics.CreateAPIView):
     queryset = User.objects.all().order_by('pk')

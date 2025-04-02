@@ -26,6 +26,28 @@ class UserListAPIViewTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['count'], 2)
 
+class UserRetrieveAPIViewTests(APITestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', password='test')
+        self.admin = User.objects.create_superuser(username='admin', password='test')
+        self.url = reverse('user-me')
+
+    def test_not_authenticated(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_authenticated(self):
+        self.client.login(username='testuser', password='test')
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['username'], 'testuser')
+
+    def test_authenticated_as_admin(self):
+        self.client.login(username='admin', password='test')
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['username'], 'admin')
+
 class UserUpdateAPIViewTests(APITestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='testuser', password='test')
